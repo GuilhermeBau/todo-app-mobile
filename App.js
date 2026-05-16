@@ -202,7 +202,7 @@ export default function App() {
   );
 }
 
-// recebe o tema e devolve os estilos. mais confiável que receber localização do namorado
+// recebe o tema e devolve os estilos. mais confiável que receber localização da namorada
 function getStyles(tema) {
   return StyleSheet.create({
     container:        { flex: 1, backgroundColor: tema.fundo },
