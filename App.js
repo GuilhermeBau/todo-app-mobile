@@ -18,9 +18,11 @@ import Checkbox from 'expo-checkbox';
 import { MaterialIcons } from '@expo/vector-icons';
 import EmojiPicker from 'react-native-emoji-chooser';
 
+// se tiver bug aqui a culpa é do JavaScript, não minha
 LogBox.ignoreLogs(['EmojiPicker', 'componentWillReceiveProps', 'componentWillMount']);
 
 export default function App() {
+  // tarefas que nunca vão ser feitas mas tá registrado pra parecer produtivo
   const [tarefas, setTarefas] = useState([
     { id: 1, nome: 'Comprar BTC na baixa', emoji: '💰', categoria: 'Financeiro', concluida: false },
     { id: 2, nome: 'Levar a morena no cinema', emoji: '💜', categoria: 'Relacionamento', concluida: false },
@@ -29,19 +31,39 @@ export default function App() {
     { id: 5, nome: 'Criar protótipo figma', emoji: '🎨', categoria: 'Trabalho', concluida: true },
   ]);
 
+  // true = modo escuro, false = modo claro, igual meu humor na segunda de manhã
+  const [temaEscuro, setTemaEscuro] = useState(true);
   const [modalVisivel, setModalVisivel] = useState(false);
   const [pickerAberto, setPickerAberto] = useState(false);
   const [nome, setNome] = useState('');
   const [emoji, setEmoji] = useState('😀');
   const [categoria, setCategoria] = useState('');
 
+  // objeto sagrado das cores, não mexa nisso
+  const tema = {
+    fundo:       temaEscuro ? '#000'     : '#fff',
+    texto:       temaEscuro ? '#fff'     : '#000',
+    contador:    temaEscuro ? '#888'     : '#666',
+    modal:       temaEscuro ? '#1a1a1a' : '#f5f5f5',
+    input:       temaEscuro ? '#2a2a2a' : '#e8e8e8',
+    divisor:     temaEscuro ? '#222'     : '#ddd',
+    riscado:     temaEscuro ? '#888'     : '#aaa',
+    placeholder: temaEscuro ? '#666'     : '#999',
+    label:       temaEscuro ? '#aaa'     : '#666',
+  };
+
+  const styles = getStyles(tema);
+
+  // calendário manual porque o Intl.DateTimeFormat não confia em ninguém
   const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const hoje = new Date();
   const dataFormatada = hoje.getDate() + ' de ' + meses[hoje.getMonth()] + ', ' + hoje.getFullYear();
 
+  // filter é o único relacionamento estável aqui
   const incompletas = tarefas.filter(t => !t.concluida);
   const realizadas = tarefas.filter(t => t.concluida);
 
+  // alterna entre concluída e não concluída, igual minha motivação ao longo do dia
   function marcarTarefa(id) {
     const novas = tarefas.map(t => {
       if (t.id === id) {
@@ -52,8 +74,9 @@ export default function App() {
     setTarefas(novas);
   }
 
+  // cria a tarefa e limpa tudo, igual resetar a vida após uma crise existencial
   function adicionarTarefa() {
-    if (nome === '') return;
+    if (nome === '') return; // sem nome não vai, igual curricular sem experiência
     const nova = {
       id: Date.now(),
       nome: nome,
@@ -69,6 +92,7 @@ export default function App() {
     setModalVisivel(false);
   }
 
+  // fecha o picker após escolher o emoji, que nem amizade que some depois de pegar o favor
   function selecionarEmoji(e) {
     setEmoji(e.emoji || e);
     setPickerAberto(false);
@@ -76,10 +100,20 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style={temaEscuro ? 'light' : 'dark'} />
 
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingBottom: 100 }}>
-        <Text style={styles.data}>{dataFormatada}</Text>
+        <View style={styles.topoHeader}>
+          <Text style={styles.data}>{dataFormatada}</Text>
+          <TouchableOpacity onPress={() => setTemaEscuro(!temaEscuro)}>
+            <MaterialIcons
+              name={temaEscuro ? 'light-mode' : 'dark-mode'}
+              size={24}
+              color={tema.texto}
+            />
+          </TouchableOpacity>
+        </View>
+
         <Text style={styles.contador}>{incompletas.length} incompletas, {realizadas.length} realizadas</Text>
 
         <Text style={styles.tituloSecao}>Incompletas</Text>
@@ -98,7 +132,7 @@ export default function App() {
           <View key={t.id} style={styles.tarefa}>
             <Checkbox value={t.concluida} onValueChange={() => marcarTarefa(t.id)} color="#6C63FF" />
             <View style={{ marginLeft: 12 }}>
-              <Text style={[styles.tarefaNome, { color: '#666', textDecorationLine: 'line-through' }]}>{t.nome}</Text>
+              <Text style={[styles.tarefaNome, { color: tema.riscado, textDecorationLine: 'line-through' }]}>{t.nome}</Text>
             </View>
           </View>
         ))}
@@ -117,7 +151,7 @@ export default function App() {
               <TextInput
                 style={styles.input}
                 placeholder="Nome da tarefa"
-                placeholderTextColor="#666"
+                placeholderTextColor={tema.placeholder}
                 value={nome}
                 onChangeText={setNome}
               />
@@ -135,7 +169,7 @@ export default function App() {
                   <TextInput
                     style={styles.input}
                     placeholder="Mercado"
-                    placeholderTextColor="#666"
+                    placeholderTextColor={tema.placeholder}
                     value={categoria}
                     onChangeText={setCategoria}
                   />
@@ -159,51 +193,55 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000' },
-  data: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
-  contador: { color: '#888', marginBottom: 20 },
-  tituloSecao: { color: '#fff', fontSize: 18, fontWeight: '600', marginTop: 20, marginBottom: 10 },
-  tarefa: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8 },
-  tarefaNome: { color: '#fff', fontSize: 16 },
-  tarefaCategoria: { color: '#888', fontSize: 13 },
-  fab: {
-    position: 'absolute',
-    bottom: 30,
-    right: 20,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#6C63FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
-  modal: { backgroundColor: '#1a1a1a', padding: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20 },
-  modalTitulo: { color: '#fff', fontSize: 18, fontWeight: '600', marginBottom: 10 },
-  input: {
-    backgroundColor: '#2a2a2a',
-    color: '#fff',
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 15,
-  },
-  label: { color: '#aaa', fontSize: 13, marginBottom: 5 },
-  botaoEmoji: {
-    backgroundColor: '#2a2a2a',
-    borderRadius: 8,
-    width: 60,
-    height: 42,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  botaoCriar: {
-    backgroundColor: '#6C63FF',
-    borderRadius: 8,
-    padding: 14,
-    alignItems: 'center',
-    marginTop: 15,
-    flexShrink: 0,
-  },
-  botaoCriarTexto: { color: '#fff', fontWeight: '600', fontSize: 16 },
-});
+// função que recebe o tema e devolve os estilos. basicamente um personal shopper de cores
+function getStyles(tema) {
+  return StyleSheet.create({
+    container:        { flex: 1, backgroundColor: tema.fundo },
+    topoHeader:       { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    data:             { color: tema.texto, fontSize: 28, fontWeight: 'bold' },
+    contador:         { color: tema.contador, marginBottom: 20 },
+    tituloSecao:      { color: tema.texto, fontSize: 18, fontWeight: '600', marginTop: 20, marginBottom: 10 },
+    tarefa:           { flexDirection: 'row', alignItems: 'center', paddingVertical: 8 },
+    tarefaNome:       { color: tema.texto, fontSize: 16 },
+    tarefaCategoria:  { color: tema.contador, fontSize: 13 },
+    fab: {
+      position: 'absolute',
+      bottom: 30,
+      right: 20,
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: '#6C63FF',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    overlay:          { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+    modal:            { backgroundColor: tema.modal, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20 },
+    modalTitulo:      { color: tema.texto, fontSize: 18, fontWeight: '600', marginBottom: 10 },
+    input: {
+      backgroundColor: tema.input,
+      color: tema.texto,
+      borderRadius: 8,
+      padding: 10,
+      fontSize: 15,
+    },
+    label:            { color: tema.label, fontSize: 13, marginBottom: 5 },
+    botaoEmoji: {
+      backgroundColor: tema.input,
+      borderRadius: 8,
+      width: 60,
+      height: 42,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    botaoCriar: {
+      backgroundColor: '#6C63FF',
+      borderRadius: 8,
+      padding: 14,
+      alignItems: 'center',
+      marginTop: 15,
+      flexShrink: 0,
+    },
+    botaoCriarTexto:  { color: '#fff', fontWeight: '600', fontSize: 16 },
+  });
+}
