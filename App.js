@@ -18,11 +18,11 @@ import Checkbox from 'expo-checkbox';
 import { MaterialIcons } from '@expo/vector-icons';
 import EmojiPicker from 'react-native-emoji-chooser';
 
-// se tiver bug aqui a culpa é do JavaScript, não minha
+// se der bug a culpa é do JavaScript. se não der bug a culpa ainda é do JavaScript
 LogBox.ignoreLogs(['EmojiPicker', 'componentWillReceiveProps', 'componentWillMount']);
 
 export default function App() {
-  // tarefas que nunca vão ser feitas mas tá registrado pra parecer produtivo
+  // lista de tarefas: 40% obrigações adultas, 60% red flag documentada
   const [tarefas, setTarefas] = useState([
     { id: 1,  nome: 'Pagar o aluguel antes de ser despejado',              emoji: '🏠', categoria: 'Financeiro',    concluida: false },
     { id: 2,  nome: 'Deletar o WhatsApp da outra antes que a nova veja',   emoji: '🗑️', categoria: 'Sobrevivência', concluida: false },
@@ -40,7 +40,7 @@ export default function App() {
     { id: 14, nome: 'Cancelar Netflix que a ex ainda usa',                 emoji: '📺', categoria: 'Financeiro',    concluida: true  },
   ]);
 
-  // true = modo escuro, false = modo claro, igual meu humor na segunda de manhã
+  // dark mode por padrão porque a vida também é assim
   const [temaEscuro, setTemaEscuro] = useState(true);
   const [modalVisivel, setModalVisivel] = useState(false);
   const [pickerAberto, setPickerAberto] = useState(false);
@@ -48,7 +48,7 @@ export default function App() {
   const [emoji, setEmoji] = useState('😀');
   const [categoria, setCategoria] = useState('');
 
-  // objeto sagrado das cores, não mexa nisso
+  // objeto das cores. mexa aqui e o app explode igual o relacionamento
   const tema = {
     fundo:       temaEscuro ? '#000'     : '#fff',
     texto:       temaEscuro ? '#fff'     : '#000',
@@ -63,16 +63,16 @@ export default function App() {
 
   const styles = getStyles(tema);
 
-  // calendário manual porque o Intl.DateTimeFormat não confia em ninguém
+  // mês em português porque o app é brasileiro igual o caos que ele representa
   const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const hoje = new Date();
   const dataFormatada = hoje.getDate() + ' de ' + meses[hoje.getMonth()] + ', ' + hoje.getFullYear();
 
-  // filter é o único relacionamento estável aqui
+  // incompletas = a vida real. realizadas = as mentiras que me conto
   const incompletas = tarefas.filter(t => !t.concluida);
   const realizadas = tarefas.filter(t => t.concluida);
 
-  // alterna entre concluída e não concluída, igual minha motivação ao longo do dia
+  // marca como feito ou não feito, exatamente como o segundo celular que "não existe"
   function marcarTarefa(id) {
     const novas = tarefas.map(t => {
       if (t.id === id) {
@@ -83,9 +83,9 @@ export default function App() {
     setTarefas(novas);
   }
 
-  // cria a tarefa e limpa tudo, igual resetar a vida após uma crise existencial
+  // adiciona a tarefa e finge que vai cumprir dessa vez
   function adicionarTarefa() {
-    if (nome === '') return; // sem nome não vai, igual curricular sem experiência
+    if (nome === '') return; // tarefa sem nome é igual desculpa sem criatividade: não passa
     const nova = {
       id: Date.now(),
       nome: nome,
@@ -101,7 +101,7 @@ export default function App() {
     setModalVisivel(false);
   }
 
-  // fecha o picker após escolher o emoji, que nem amizade que some depois de pegar o favor
+  // escolheu o emoji, picker fecha. diferente da namorada que não fecha depois de descobrir o Maps
   function selecionarEmoji(e) {
     setEmoji(e.emoji || e);
     setPickerAberto(false);
@@ -202,7 +202,7 @@ export default function App() {
   );
 }
 
-// função que recebe o tema e devolve os estilos. basicamente um personal shopper de cores
+// recebe o tema e devolve os estilos. mais confiável que receber localização do namorado
 function getStyles(tema) {
   return StyleSheet.create({
     container:        { flex: 1, backgroundColor: tema.fundo },
