@@ -24,11 +24,16 @@ LogBox.ignoreLogs(['EmojiPicker', 'componentWillReceiveProps', 'componentWillMou
 export default function App() {
   // tarefas que nunca vão ser feitas mas tá registrado pra parecer produtivo
   const [tarefas, setTarefas] = useState([
-    { id: 1, nome: 'Comprar BTC na baixa', emoji: '💰', categoria: 'Financeiro', concluida: false },
-    { id: 2, nome: 'Levar a morena no cinema', emoji: '💜', categoria: 'Relacionamento', concluida: false },
-    { id: 3, nome: 'Comprar detergente', emoji: '🛒', categoria: 'Mercado', concluida: false },
-    { id: 4, nome: 'Preparar aula de mobile', emoji: '📚', categoria: 'Trabalho', concluida: true },
-    { id: 5, nome: 'Criar protótipo figma', emoji: '🎨', categoria: 'Trabalho', concluida: true },
+    { id: 1, nome: 'Encontrar um propósito de vida (prazo: antes do velório)', emoji: '⚰️', categoria: 'Existencial', concluida: false },
+    { id: 2, nome: 'Parar de procrastinar amanhã', emoji: '🦥', categoria: 'Desenvolvimento', concluida: false },
+    { id: 3, nome: 'Ligar pra mãe antes que ela ligue pro IML', emoji: '📞', categoria: 'Família', concluida: false },
+    { id: 4, nome: 'Pagar o FIES (ou simplesmente morrer)', emoji: '💀', categoria: 'Financeiro', concluida: false },
+    { id: 5, nome: 'Ir na academia (15ª tentativa do ano)', emoji: '🏋️', categoria: 'Saúde', concluida: false },
+    { id: 6, nome: 'Fingir que tá bem na terapia', emoji: '🛋️', categoria: 'Saúde Mental', concluida: false },
+    { id: 7, nome: 'Dormir cedo (spoiler: não vai acontecer)', emoji: '🌙', categoria: 'Ilusão', concluida: false },
+    { id: 8, nome: 'Nascer de novo em família rica', emoji: '👶', categoria: 'Impossível', concluida: true },
+    { id: 9, nome: 'Aceitar que o ex não volta', emoji: '💔', categoria: 'Luto', concluida: true },
+    { id: 10, nome: 'Desistir de entender a conta de luz', emoji: '💡', categoria: 'Financeiro', concluida: true },
   ]);
 
   // true = modo escuro, false = modo claro, igual meu humor na segunda de manhã
