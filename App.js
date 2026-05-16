@@ -24,16 +24,20 @@ LogBox.ignoreLogs(['EmojiPicker', 'componentWillReceiveProps', 'componentWillMou
 export default function App() {
   // tarefas que nunca vão ser feitas mas tá registrado pra parecer produtivo
   const [tarefas, setTarefas] = useState([
-    { id: 1, nome: 'Encontrar um propósito de vida (prazo: antes do velório)', emoji: '⚰️', categoria: 'Existencial', concluida: false },
-    { id: 2, nome: 'Parar de procrastinar amanhã', emoji: '🦥', categoria: 'Desenvolvimento', concluida: false },
-    { id: 3, nome: 'Ligar pra mãe antes que ela ligue pro IML', emoji: '📞', categoria: 'Família', concluida: false },
-    { id: 4, nome: 'Pagar o FIES (ou simplesmente morrer)', emoji: '💀', categoria: 'Financeiro', concluida: false },
-    { id: 5, nome: 'Ir na academia (15ª tentativa do ano)', emoji: '🏋️', categoria: 'Saúde', concluida: false },
-    { id: 6, nome: 'Fingir que tá bem na terapia', emoji: '🛋️', categoria: 'Saúde Mental', concluida: false },
-    { id: 7, nome: 'Dormir cedo (spoiler: não vai acontecer)', emoji: '🌙', categoria: 'Ilusão', concluida: false },
-    { id: 8, nome: 'Nascer de novo em família rica', emoji: '👶', categoria: 'Impossível', concluida: true },
-    { id: 9, nome: 'Aceitar que o ex não volta', emoji: '💔', categoria: 'Luto', concluida: true },
-    { id: 10, nome: 'Desistir de entender a conta de luz', emoji: '💡', categoria: 'Financeiro', concluida: true },
+    { id: 1,  nome: 'Pagar o aluguel antes de ser despejado',              emoji: '🏠', categoria: 'Financeiro',    concluida: false },
+    { id: 2,  nome: 'Deletar o WhatsApp da outra antes que a nova veja',   emoji: '🗑️', categoria: 'Sobrevivência', concluida: false },
+    { id: 3,  nome: 'Renovar CNH',                                         emoji: '🪪', categoria: 'Documentos',    concluida: false },
+    { id: 4,  nome: 'Marcar encontro com a vizinha enquanto namorada viaja',emoji: '✈️', categoria: 'Logística',     concluida: false },
+    { id: 5,  nome: 'Agendar consulta no dentista',                        emoji: '🦷', categoria: 'Saúde',         concluida: false },
+    { id: 6,  nome: 'Criar senha diferente pro segundo celular',           emoji: '📱', categoria: 'Segurança',     concluida: false },
+    { id: 7,  nome: 'Entregar TCC antes da banca reprovar na raiva',       emoji: '📄', categoria: 'Faculdade',     concluida: false },
+    { id: 8,  nome: 'Ensaiar desculpa pra chegar tarde de novo',           emoji: '🤥', categoria: 'Criatividade',  concluida: false },
+    { id: 9,  nome: 'Pagar IPVA',                                          emoji: '🚗', categoria: 'Financeiro',    concluida: false },
+    { id: 10, nome: 'Limpar histórico do Maps antes do role suspeito',     emoji: '📍', categoria: 'Higiene',       concluida: false },
+    { id: 11, nome: 'Ir ao mercado',                                       emoji: '🛒', categoria: 'Mercado',       concluida: true  },
+    { id: 12, nome: 'Convencer a namorada que o perfume é do Uber',        emoji: '🚕', categoria: 'Sobrevivência', concluida: true  },
+    { id: 13, nome: 'Renovar seguro de vida (por precaução)',              emoji: '💀', categoria: 'Precaução',     concluida: true  },
+    { id: 14, nome: 'Cancelar Netflix que a ex ainda usa',                 emoji: '📺', categoria: 'Financeiro',    concluida: true  },
   ]);
 
   // true = modo escuro, false = modo claro, igual meu humor na segunda de manhã
